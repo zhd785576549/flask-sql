@@ -20,13 +20,13 @@ class SQLXmlParse(object):
             module = None
             func_name = None
             if tag == "select":
-                func_name, module = self.parse_select(element)
+                func_name, module = self.__parse_select(element)
             elif tag == "update":
-                func_name, module = self.parse_update(element)
+                func_name, module = self.__parse_update(element)
             elif tag == "insert":
-                func_name, module = self.parse_insert(element)
+                func_name, module = self.__parse_insert(element)
             elif tag == "delete":
-                func_name, module = self.parse_delete(element)
+                func_name, module = self.__parse_delete(element)
             else:
                 err_flag = True
                 errors.append("{0} unknown tag name {1}".format(self.filepath, element.tag))
@@ -38,50 +38,42 @@ class SQLXmlParse(object):
             raise UnknownElement(errors)
         return modules
 
-    def parse_select(self, e):
+    def __parse_select(self, e):
         sql_module = SQLModule()
         func_name = e.get("id")
         parameter_type = e.get("parameterType")
         result_type = e.get("resultType")
-        timeout = e.get("timeout", 30)
         sql_module.parameter_type = parameter_type
         sql_module.result_type = result_type
-        sql_module.timeout = timeout
         sql_module.sql_statement = e.text
         return func_name, sql_module
 
-    def parse_update(self, e):
+    def __parse_update(self, e):
         sql_module = SQLModule()
         func_name = e.get("id")
         parameter_type = e.get("parameterType")
         result_type = e.get("resultType")
-        timeout = e.get("timeout", 30)
         sql_module.parameter_type = parameter_type
         sql_module.result_type = result_type
-        sql_module.timeout = timeout
         sql_module.sql_statement = e.text
         return func_name, sql_module
 
-    def parse_insert(self, e):
+    def __parse_insert(self, e):
         sql_module = SQLModule()
         func_name = e.get("id")
         parameter_type = e.get("parameterType")
         result_type = e.get("resultType")
-        timeout = e.get("timeout", 30)
         sql_module.parameter_type = parameter_type
         sql_module.result_type = result_type
-        sql_module.timeout = timeout
         sql_module.sql_statement = e.text
         return func_name, sql_module
 
-    def parse_delete(self, e):
+    def __parse_delete(self, e):
         sql_module = SQLModule()
         func_name = e.get("id")
         parameter_type = e.get("parameterType")
         result_type = e.get("resultType")
-        timeout = e.get("timeout", 30)
         sql_module.parameter_type = parameter_type
         sql_module.result_type = result_type
-        sql_module.timeout = timeout
         sql_module.sql_statement = e.text
         return func_name, sql_module
